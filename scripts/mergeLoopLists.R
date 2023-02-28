@@ -7,7 +7,7 @@ library(mariner)
 ## TODO: Consider merging all Hi-C data and calling
 ##       loops in the "omega" dataset.
 ## File paths for loops
-loopFiles <- list.files(path="data/raw/loops/DEGR_loops",
+loopFiles <- list.files(path="data/raw/loops/MOPS_loops",
                         pattern="5kbLoops.txt",
                         full.names=TRUE,
                         recursive=TRUE)

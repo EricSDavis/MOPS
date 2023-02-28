@@ -1,37 +1,46 @@
-# DEGR
+# MOPS
 
 ## Calling loops with SIP
 
-The following commands were run on UNC longleaf to call loop from biorep-combined Hi-C files with SIP:
+A second round of sequencing was conducted to improve power to detect
+differenetial loops. The following commands were run on UNC longleaf to
+call loop from biorep-combined Hi-C files with SIP:
 
 ```{bash}
-## DEGR_HCT_CTCFNHA9_0h_1 loops
-sbatch -p general -t 4320 --mem=8G -J DEGR_HCT_CTCFNHA9_0h_1 --wrap="java -jar /proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar hic /proj/phanstiel_lab/Data/processed/DEGR/hic/Novaseq/output/DEGR_HCT_CTCFNHA9_0h_1/DEGR_HCT_CTCFNHA9_0h_1_inter_30.hic /proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt DEGR_HCT_CTCFNHA9_0h_1 /proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar -g 2.0 -t 2000 -fdr 0.05"
+hicFiles=$(ls /work/users/e/s/esdavis/MOPS/condition/output/MOPS*/*inter_30.hic)
+sip_jar="/proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar"
+chromSizes="/proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt"
+juicer_tools_jar="/proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar"
 
-## DEGR_HCT_CTCFNHA9_3h_1 loops
-sbatch -p general -t 4320 --mem=8G -J DEGR_HCT_CTCFNHA9_3h_1 --wrap="java -jar /proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar hic /proj/phanstiel_lab/Data/processed/DEGR/hic/Novaseq/output/DEGR_HCT_CTCFNHA9_3h_1/DEGR_HCT_CTCFNHA9_3h_1_inter_30.hic /proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt DEGR_HCT_CTCFNHA9_3h_1 /proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar -g 2.0 -t 2000 -fdr 0.05"
+for f in $hicFiles
+do
+ name=$(basename $f .hic)
+ echo $name
+ jid=`sbatch <<- SIP | egrep -o -e "\b[0-9]+$"
+        #!/bin/sh
+        #SBATCH -J $name
+        #SBATCH -p general
+        #SBATCH -n 1
+        #SBATCH -N 1
+        #SBATCH --mem=8G
+        #SBATCH -t 4320
+        #SBATCH -o %x_%j.out
+        #SBATCH -e %x_%j.err
 
-## DEGR_HCT_CTCFparental_0h_1 loops
-sbatch -p general -t 4320 --mem=8G -J DEGR_HCT_CTCFparental_0h_1 --wrap="java -jar /proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar hic /proj/phanstiel_lab/Data/processed/DEGR/hic/Novaseq/output/DEGR_HCT_CTCFparental_0h_1/DEGR_HCT_CTCFparental_0h_1_inter_30.hic /proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt DEGR_HCT_CTCFparental_0h_1 /proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar -g 2.0 -t 2000 -fdr 0.05"
+        java -jar $sip_jar \
+        hic $f \
+        $chromSizes \
+        $name \
+        $juicer_tools_jar \
+        -g 2.0 -t 2000 -fdr 0.05
 
-## DEGR_HCT_CTCFparental_3h_1 loops
-sbatch -p general -t 4320 --mem=8G -J DEGR_HCT_CTCFparental_3h_1 --wrap="java -jar /proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar hic /proj/phanstiel_lab/Data/processed/DEGR/hic/Novaseq/output/DEGR_HCT_CTCFparental_3h_1/DEGR_HCT_CTCFparental_3h_1_inter_30.hic /proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt DEGR_HCT_CTCFparental_3h_1 /proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar -g 2.0 -t 2000 -fdr 0.05"
-
-## DEGR_HCT_RAD21NHA9_0h_1 loops
-sbatch -p general -t 4320 --mem=8G -J DEGR_HCT_RAD21NHA9_0h_1 --wrap="java -jar /proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar hic /proj/phanstiel_lab/Data/processed/DEGR/hic/Novaseq/output/DEGR_HCT_RAD21NHA9_0h_1/DEGR_HCT_RAD21NHA9_0h_1_inter_30.hic /proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt DEGR_HCT_RAD21NHA9_0h_1 /proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar -g 2.0 -t 2000 -fdr 0.05"
-
-## DEGR_HCT_RAD21NHA9_3h_1 loops
-sbatch -p general -t 4320 --mem=8G -J DEGR_HCT_RAD21NHA9_3h_1 --wrap="java -jar /proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar hic /proj/phanstiel_lab/Data/processed/DEGR/hic/Novaseq/output/DEGR_HCT_RAD21NHA9_3h_1/DEGR_HCT_RAD21NHA9_3h_1_inter_30.hic /proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt DEGR_HCT_RAD21NHA9_3h_1 /proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar -g 2.0 -t 2000 -fdr 0.05"
-
-## DEGR_HCT_RAD21parental_0h_1 loops
-sbatch -p general -t 4320 --mem=8G -J DEGR_HCT_RAD21parental_0h_1 --wrap="java -jar /proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar hic /proj/phanstiel_lab/Data/processed/DEGR/hic/Novaseq/output/DEGR_HCT_RAD21parental_0h_1/DEGR_HCT_RAD21parental_0h_1_inter_30.hic /proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt DEGR_HCT_RAD21parental_0h_1 /proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar -g 2.0 -t 2000 -fdr 0.05"
-
-## DEGR_HCT_RAD21parental_3h_1 loops
-sbatch -p general -t 4320 --mem=8G -J DEGR_HCT_RAD21parental_3h_1 --wrap="java -jar /proj/phanstiel_lab/Software/SIP/SIP_HiCv1.6.2.jar hic /proj/phanstiel_lab/Data/processed/DEGR/hic/Novaseq/output/DEGR_HCT_RAD21parental_3h_1/DEGR_HCT_RAD21parental_3h_1_inter_30.hic /proj/phanstiel_lab/References/chromSizes/hg38_chromSizes.txt DEGR_HCT_RAD21parental_3h_1 /proj/phanstiel_lab/Software/juicer/scripts/juicer_tools_1.14.08.jar -g 2.0 -t 2000 -fdr 0.05"
+SIP`
+        echo Submitted jobid: $jid
+done
 ```
 
-The resulting files were moved to `/proj/phanstiel_lab/users/esdavis/project/DEGR/sip_loops`
+The resulting files are located at `/work/users/e/s/esdavis/MOPS/sip_loops`
 on the UNC longleaf cluster.
 
-These loop calls were downloaded locally to `data/raw/loops/DEGR_loops`.
+These loop calls were downloaded locally to `data/raw/loops/MOPS_loops`.
 
