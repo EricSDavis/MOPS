@@ -27,7 +27,9 @@ colData(loopCounts)$condition <- relevel(factor(coldata$condition), "Control")
 ## Build DESeq dataset & run DESeq analysis
 counts(loopCounts) <- as.matrix(counts(loopCounts))
 dds <- DESeqDataSet(se = loopCounts, design = ~ replicate + condition)
+# sizeFactors(dds) <- rep(1, ncol(dds))
 dds <- DESeq(dds)
+
 
 ## Get shrunken results
 res <- lfcShrink(dds, coef = "condition_5PhIAA_vs_Control", type = "apeglm")
