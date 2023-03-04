@@ -13,7 +13,8 @@ objects :=\
 	data/ControlMergedLoopCounts.h5\
 	data/ControlMergedLoopCounts.rds\
 	plots/ParentalVsNha9_MAplot.pdf\
-	data/ControlDiffLoopCounts.rds
+	data/ControlDiffLoopCounts.rds\
+	plots/surveyParentalVsNha9.pdf
 
 all: $(objects)
 
@@ -104,3 +105,13 @@ data/ControlDiffLoopCounts.rds:\
 	scripts/diffLoopsParentalVsNha9.R
 		mkdir -p data plots
 		Rscript scripts/diffLoopsParentalVsNha9.R
+
+## Survey through NHA9 loops
+## in HCT cells
+plots/surveyParentalVsNha9.pdf:\
+	data/ControlDiffLoopCounts.rds\
+	data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_Control_0h_inter_30.hic\
+	scripts/surveyParentalVsNha9.R
+		mkdir -p plots
+		Rscript scripts/surveyParentalVsNha9.R
