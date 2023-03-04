@@ -19,10 +19,11 @@ loops <- interactions(loopCounts)
 diffLoops <- loops[which(loops$padj <= 0.1)]
 
 ## Define paths to .hic files
-ctrlFile <- "data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic"
-nha9File <- "data/raw/hic/condition/MOPS_HCT_CTCFNHA9_Control_0h_inter_30.hic"
+ctrlFile <- "data/raw/hic/condition/MOPS_HCT_RAD21parental_Control_0h_inter_30.hic"
+nha9File <- "data/raw/hic/condition/MOPS_HCT_RAD21NHA9_Control_0h_inter_30.hic"
+degrFile <- "data/raw/hic/condition/MOPS_HCT_RAD21NHA9_5PhIAA_3h_inter_30.hic"
 
-pdf("plots/surveyParentalVsNha9.pdf", 5, 5)
+pdf("plots/surveyParentalVsNha9_RAD21.pdf", 5, 7)
 for (i in seq_along(diffLoops)) {
     ## Define parameters
     p <- pgParams(
@@ -35,7 +36,7 @@ for (i in seq_along(diffLoops)) {
 
         ## Hi-C parameters
         resolution = 5e3,
-        zrange = c(0, 50),
+        zrange = c(0, 25),
         norm = "KR",
 
         ## Default position
@@ -47,7 +48,7 @@ for (i in seq_along(diffLoops)) {
     )
 
     ## Begin visualization
-    pageCreate(width = 5, height = 5, showGuides=FALSE)
+    pageCreate(width = 5, height = 7, showGuides=FALSE)
     ctrlHicPlot <- plotHicRectangle(
         params = p,
         data = ctrlFile
@@ -56,6 +57,11 @@ for (i in seq_along(diffLoops)) {
         params = p,
         data = nha9File,
         y = "0.1b"
+    )
+    degrHicPlot <- plotHicRectangle(
+        params = p,
+        data = degrFile,
+        y = '0.1b'
     )
     plotGenes(
         params = p,
@@ -84,17 +90,31 @@ for (i in seq_along(diffLoops)) {
         height = p$height * 0.75,
         fontcolor = "black"
     )
+    annoHeatmapLegend(
+        plot = degrHicPlot,
+        x = p$x + p$width + p$space,
+        y = degrHicPlot$y,
+        width = p$space,
+        height = p$height * 0.75,
+        fontcolor = "black"
+    )
 
     plotText(
-        label = "Parental (no auxin)",
+        label = "HCT",
         x = ctrlHicPlot$x + unit(p$space / 2, "inches"),
         y = ctrlHicPlot$y + unit(p$space / 2, "inches"),
         just = c("left", "top")
     )
     plotText(
-        label = "NHA9 (no auxin)",
+        label = "HCT +NHA9",
         x = nha9HicPlot$x + unit(p$space / 2, "inches"),
         y = nha9HicPlot$y + unit(p$space / 2, "inches"),
+        just = c("left", "top")
+    )
+    plotText(
+        label = "HCT +NHA9 -RAD21",
+        x = degrHicPlot$x + unit(p$space / 2, "inches"),
+        y = degrHicPlot$y + unit(p$space / 2, "inches"),
         just = c("left", "top")
     )
 }

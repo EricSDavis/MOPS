@@ -14,7 +14,8 @@ objects :=\
 	data/ControlMergedLoopCounts.rds\
 	plots/ParentalVsNha9_MAplot.pdf\
 	data/ControlDiffLoopCounts.rds\
-	plots/surveyParentalVsNha9.pdf
+	plots/surveyParentalVsNha9_CTCF.pdf\
+	plots/surveyParentalVsNha9_RAD21.pdf
 
 all: $(objects)
 
@@ -107,11 +108,23 @@ data/ControlDiffLoopCounts.rds:\
 		Rscript scripts/diffLoopsParentalVsNha9.R
 
 ## Survey through NHA9 loops
-## in HCT cells
-plots/surveyParentalVsNha9.pdf:\
+## in HCT cells with CTCF degron
+plots/surveyParentalVsNha9_CTCF.pdf:\
 	data/ControlDiffLoopCounts.rds\
 	data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic\
 	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_Control_0h_inter_30.hic\
-	scripts/surveyParentalVsNha9.R
+	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_5PhIAA_3h_inter_30.hic\
+	scripts/surveyParentalVsNha9_CTCF.R
 		mkdir -p plots
-		Rscript scripts/surveyParentalVsNha9.R
+		Rscript scripts/surveyParentalVsNha9_CTCF.R
+
+## Survey through NHA9 loops
+## in HCT cells with RAD21 degron
+plots/surveyParentalVsNha9_RAD21.pdf:\
+	data/ControlDiffLoopCounts.rds\
+	data/raw/hic/condition/MOPS_HCT_RAD21parental_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_RAD21NHA9_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_RAD21NHA9_5PhIAA_3h_inter_30.hic\
+	scripts/surveyParentalVsNha9_RAD21.R
+		mkdir -p plots
+		Rscript scripts/surveyParentalVsNha9_RAD21.R
