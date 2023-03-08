@@ -15,7 +15,14 @@ objects :=\
 	plots/ParentalVsNha9_MAplot.pdf\
 	data/ControlDiffLoopCounts.rds\
 	plots/surveyParentalVsNha9_CTCF.pdf\
-	plots/surveyParentalVsNha9_RAD21.pdf
+	plots/surveyParentalVsNha9_RAD21.pdf\
+	plots/apaCtcfCtl.png\
+	plots/apaCtcfAux.png\
+	data/ctcfParentalCounts.h5\
+	data/ctcfParentalCounts.rds\
+	data/mergedLoops/mergedLoopsParentalCTCF.rds\
+	plots/ctcfLossExampleCtl.png\
+	plots/ctcfLossExampleAux.png
 
 all: $(objects)
 
@@ -128,3 +135,45 @@ plots/surveyParentalVsNha9_RAD21.pdf:\
 	scripts/surveyParentalVsNha9_RAD21.R
 		mkdir -p plots
 		Rscript scripts/surveyParentalVsNha9_RAD21.R
+
+########################################
+## Example figure/plots showing
+## global loss of CTCF loops.
+## Excluding NHA9 to avoid confounding
+## effects of NHA9 binding.
+########################################
+
+## Merge loops between parental lines
+## expressing CTCF degron +/- auxin
+data/mergedLoops/mergedLoopsParentalCTCF.rds:\
+	data/raw/sip_loops/MOPS_HCT_CTCFparental_5PhIAA_3h_inter_30/5kbLoops.txt\
+	data/raw/sip_loops/MOPS_HCT_CTCFparental_Control_0h_inter_30/5kbLoops.txt\
+	scripts/mergeLoopsParentalCTCF.R
+		mkdir -p data
+		Rscript scripts/mergeLoopsParentalCTCF.R
+
+## Example showing loss after auxin
+## treatment to degrade CTCF
+plots/ctcfLossExampleCtl.png\
+plots/ctcfLossExampleAux.png:\
+	data/raw/sip_loops/MOPS_HCT_CTCFparental_Control_0h_inter_30/5kbLoops.txt\
+	data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_CTCFparental_5PhIAA_3h_inter_30.hic\
+	scripts/ctcfLossExample.R
+		mkdir -p plots
+		Rscript scripts/ctcfLossExample.R
+
+## APA plots of all loops in the untreated
+## condition in parental lines expressing
+## CTCF degron +/- auxin to show what
+## happens to existing CTCF loops
+plots/apaCtcfCtl.png\
+plots/apaCtcfAux.png\
+data/ctcfParentalCounts.h5\
+data/ctcfParentalCounts.rds:\
+	data/raw/sip_loops/MOPS_HCT_CTCFparental_Control_0h_inter_30/5kbLoops.txt\
+	data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_CTCFparental_5PhIAA_3h_inter_30.hic\
+	scripts/apaCtcfLoss.R
+		mkdir -p data plots
+		Rscript scripts/apaCtcfLoss.R
