@@ -74,6 +74,12 @@ annoHeatmapLegend(
     fontcolor = 'black',
     fontsize = 14
 )
+annoGenomeLabel(
+    plot = p,
+    x = p$x,
+    y = p$y + p$height,
+    fontsize = 16
+)
 dev.off()
 
 
@@ -91,5 +97,11 @@ annoHeatmapLegend(
     height = p$height * 0.5,
     fontcolor = 'black',
     fontsize = 14
+)
+annoGenomeLabel(
+    plot = p,
+    x = p$x,
+    y = p$y + p$height,
+    fontsize = 16
 )
 dev.off()
