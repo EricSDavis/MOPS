@@ -22,7 +22,10 @@ objects :=\
 	plots/apaCtcfAux.png\
 	data/mergedLoops/mergedLoopsParentalCTCF.rds\
 	plots/ctcfLossExampleCtl.png\
-	plots/ctcfLossExampleAux.png
+	plots/ctcfLossExampleAux.png\
+	plots/exampleParentalVsNha9_CTCF_-NHA9.png\
+	plots/exampleParentalVsNha9_CTCF_+NHA9.png\
+	plots/exampleParentalVsNha9_CTCF_+NHA9-CTCF.png
 
 all: $(objects)
 
@@ -185,3 +188,21 @@ plots/apaCtcfAux.png:\
 	scripts/apaCtcfLossPlots.R
 		mkdir -p plots
 		Rscript scripts/apaCtcfLossPlots.R
+
+#########################################
+## Example figure/plots showing gained/
+## retained NHA9 loop after degradation
+## of CTCF.
+#########################################
+
+## Example region (PBX3 region) of NHA9 loop 
+## that is retained after CTCF loss.
+plots/exampleParentalVsNha9_CTCF_-NHA9.png\
+plots/exampleParentalVsNha9_CTCF_+NHA9.png\
+plots/exampleParentalVsNha9_CTCF_+NHA9-CTCF.png:\
+	data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_5PhIAA_3h_inter_30.hic\
+	scripts/exampleParentalVsNha9_CTCF.R
+		mkdir -p plots
+		Rscript scripts/exampleParentalVsNha9_CTCF.R
