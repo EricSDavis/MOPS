@@ -59,7 +59,7 @@ p <- pgParams(
     zrange = c(0, 150)
 )
 
-png("plots/ctcfLossExampleCtl.png", width=12, height=5.5, unit='in', res=300)
+png("plots/ctcfLossExampleCtl.png", width=12, height=5.6, unit='in', res=300)
 pageCreate(12.5, 6, showGuides = FALSE)
 hicPlot <- plotHicRectangle(
     params = p,
@@ -69,21 +69,21 @@ annoHeatmapLegend(
     params = p,
     plot = hicPlot,
     x = p$x + p$width + p$space*2,
-    width = p$space * 1.2,
+    width = p$space * 2,
     height = p$height * 0.5,
     fontcolor = 'black',
-    fontsize = 14
+    fontsize = 18
 )
 annoGenomeLabel(
     plot = p,
     x = p$x,
     y = p$y + p$height,
-    fontsize = 16
+    fontsize = 20
 )
 dev.off()
 
 
-png("plots/ctcfLossExampleAux.png", width=12, height=5.5, unit='in', res=300)
+png("plots/ctcfLossExampleAux.png", width=12, height=5.6, unit='in', res=300)
 pageCreate(12.5, 6, showGuides = FALSE)
 hicPlot <- plotHicRectangle(
     params = p,
@@ -93,15 +93,15 @@ annoHeatmapLegend(
     params = p,
     plot = hicPlot,
     x = p$x + p$width + p$space*2,
-    width = p$space * 1.2,
+    width = p$space * 2,
     height = p$height * 0.5,
     fontcolor = 'black',
-    fontsize = 14
+    fontsize = 18
 )
 annoGenomeLabel(
     plot = p,
     x = p$x,
     y = p$y + p$height,
-    fontsize = 16
+    fontsize = 20
 )
 dev.off()

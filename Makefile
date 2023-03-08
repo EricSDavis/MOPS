@@ -16,10 +16,10 @@ objects :=\
 	data/ControlDiffLoopCounts.rds\
 	plots/surveyParentalVsNha9_CTCF.pdf\
 	plots/surveyParentalVsNha9_RAD21.pdf\
-	plots/apaCtcfCtl.png\
-	plots/apaCtcfAux.png\
 	data/ctcfParentalCounts.h5\
 	data/ctcfParentalCounts.rds\
+	plots/apaCtcfCtl.png\
+	plots/apaCtcfAux.png\
 	data/mergedLoops/mergedLoopsParentalCTCF.rds\
 	plots/ctcfLossExampleCtl.png\
 	plots/ctcfLossExampleAux.png
@@ -167,13 +167,21 @@ plots/ctcfLossExampleAux.png:\
 ## condition in parental lines expressing
 ## CTCF degron +/- auxin to show what
 ## happens to existing CTCF loops
-plots/apaCtcfCtl.png\
-plots/apaCtcfAux.png\
+## First data
 data/ctcfParentalCounts.h5\
 data/ctcfParentalCounts.rds:\
 	data/raw/sip_loops/MOPS_HCT_CTCFparental_Control_0h_inter_30/5kbLoops.txt\
 	data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic\
 	data/raw/hic/condition/MOPS_HCT_CTCFparental_5PhIAA_3h_inter_30.hic\
 	scripts/apaCtcfLoss.R
-		mkdir -p data plots
+		mkdir -p data
 		Rscript scripts/apaCtcfLoss.R
+
+## Then plots
+plots/apaCtcfCtl.png\
+plots/apaCtcfAux.png:\
+	data/ctcfParentalCounts.h5\
+	data/ctcfParentalCounts.rds\
+	scripts/apaCtcfLossPlots.R
+		mkdir -p plots
+		Rscript scripts/apaCtcfLossPlots.R
