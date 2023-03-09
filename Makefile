@@ -28,6 +28,7 @@ objects :=\
 	plots/exampleParentalVsNha9_CTCF_+NHA9-CTCF.png\
 	data/apaParentalVsNha9_CTCF.h5\
 	data/apaParentalVsNha9_CTCF.rds\
+	plots/apaNha9PareCtl.png\
 	plots/apaNha9CtcfCtl.png\
 	plots/apaNha9CtcfAux.png\
 	data/mergedLoops/mergedLoopsNha9Ctcf.rds\
@@ -181,6 +182,7 @@ plots/exampleParentalVsNha9_CTCF_+NHA9-CTCF.png:\
 data/apaParentalVsNha9_CTCF.h5\
 data/apaParentalVsNha9_CTCF.rds:\
 	data/ControlDiffLoopCounts.rds\
+	data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic\
 	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_Control_0h_inter_30.hic\
 	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_5PhIAA_3h_inter_30.hic\
 	scripts/apaParentalVsNha9_CTCF.R
@@ -189,6 +191,7 @@ data/apaParentalVsNha9_CTCF.rds:\
 		Rscript scripts/apaParentalVsNha9_CTCF.R
 
 ## APA plots
+plots/apaNha9PareCtl.png\
 plots/apaNha9CtcfCtl.png\
 plots/apaNha9CtcfAux.png:\
 	data/apaParentalVsNha9_CTCF.rds\

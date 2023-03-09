@@ -16,6 +16,7 @@ diffLoops <- loops[which(loops$padj <= 0.1)]
 
 ## Load hic file paths
 hicFiles <- c(
+    "data/raw/hic/condition/MOPS_HCT_CTCFparental_Control_0h_inter_30.hic",
     "data/raw/hic/condition/MOPS_HCT_CTCFNHA9_Control_0h_inter_30.hic",
     "data/raw/hic/condition/MOPS_HCT_CTCFNHA9_5PhIAA_3h_inter_30.hic"
 )

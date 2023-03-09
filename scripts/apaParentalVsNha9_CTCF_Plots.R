@@ -26,6 +26,31 @@ p <- pgParams(
 )
 
 ## Visualize results
+## Parental Control
+png(
+    "plots/apaNha9PareCtl.png",
+    width = 5.75,
+    height = 5.5,
+    units = "in",
+    res = 300
+)
+pageCreate(6.5, 6, showGuides = FALSE)
+apa <- plotMatrix(
+    params = p,
+    data = mats[, , 1]
+)
+annoHeatmapLegend(
+    plot = apa,
+    params = p,
+    x = p$x + p$width + p$space * 2,
+    width = p$space * 2,
+    height = p$height * 0.5,
+    fontcolor = "black",
+    fontsize = 18
+)
+dev.off()
+
+## Visualize results
 ## +CTCF
 png(
     "plots/apaNha9CtcfCtl.png", 
@@ -37,7 +62,7 @@ png(
 pageCreate(6.5, 6, showGuides = FALSE)
 apa <- plotMatrix(
     params = p,
-    data = mats[, , 1]
+    data = mats[, , 2]
 )
 annoHeatmapLegend(
     plot = apa,
@@ -61,7 +86,7 @@ png(
 pageCreate(6.5, 6, showGuides = FALSE)
 apa <- plotMatrix(
     params = p,
-    data = mats[, , 2]
+    data = mats[, , 3]
 )
 annoHeatmapLegend(
     plot = apa,
