@@ -29,7 +29,14 @@ objects :=\
 	data/apaParentalVsNha9_CTCF.h5\
 	data/apaParentalVsNha9_CTCF.rds\
 	plots/apaNha9CtcfCtl.png\
-	plots/apaNha9CtcfAux.png
+	plots/apaNha9CtcfAux.png\
+	data/mergedLoops/mergedLoopsNha9Ctcf.rds\
+	data/Nha9CtcfMergedLoopCounts.h5\
+	data/Nha9CtcfMergedLoopCounts.rds\
+	data/Nha9CtcfDiffLoopCounts.rds\
+	plots/Nha9Ctcf_MAplot.pdf\
+	plots/exampleNha9CtcfGainedLoop.png\
+	plots/exampleNha9CtcfLostBoundary.png
 
 all: $(objects)
 
@@ -71,7 +78,7 @@ data/rad21Nha9MergedLoopCounts.rds:\
 	data/mergedLoops/rad21Nha9MergedLoops.rds\
 	scripts/extractCountsRad21.R
 		mkdir -p data
-		test -f data/rad21Nha9MergedLoopCounts.h5 && rm data/rad21Nha9MergedLoopCounts.h5
+		if test -f data/rad21Nha9MergedLoopCounts.h5; then rm data/rad21Nha9MergedLoopCounts.h5; fi
 		Rscript scripts/extractCountsRad21.R
 
 ## Differential analysis
@@ -112,7 +119,7 @@ data/ControlMergedLoopCounts.rds:\
 	data/mergedLoops/mergedLoopsControl.rds\
 	scripts/extractCountsParentalVsNha9.R
 		mkdir -p data
-		test -f data/ControlMergedLoopCounts.h5 && rm data/ControlMergedLoopCounts.h5
+		if test -f data/ControlMergedLoopCounts.h5; then rm data/ControlMergedLoopCounts.h5; fi
 		Rscript scripts/extractCountsParentalVsNha9.R
 
 ## Differential analysis
@@ -171,7 +178,7 @@ data/apaParentalVsNha9_CTCF.rds:\
 	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_5PhIAA_3h_inter_30.hic\
 	scripts/apaParentalVsNha9_CTCF.R
 		mkdir -p data
-		test -f data/apaParentalVsNha9_CTCF.h5 && rm data/apaParentalVsNha9_CTCF.h5
+		if test -f data/apaParentalVsNha9_CTCF.h5; then rm data/apaParentalVsNha9_CTCF.h5; fi
 		Rscript scripts/apaParentalVsNha9_CTCF.R
 
 ## APA plots
@@ -222,7 +229,7 @@ data/ctcfParentalCounts.rds:\
 	data/raw/hic/condition/MOPS_HCT_CTCFparental_5PhIAA_3h_inter_30.hic\
 	scripts/apaCtcfLoss.R
 		mkdir -p data
-		test -f data/ctcfParentalCounts.h5 && rm data/ctcfParentalCounts.h5
+		if test -f data/ctcfParentalCounts.h5; then rm data/ctcfParentalCounts.h5; fi
 		Rscript scripts/apaCtcfLoss.R
 
 ## Then plots
@@ -233,3 +240,57 @@ plots/apaCtcfAux.png:\
 	scripts/apaCtcfLossPlots.R
 		mkdir -p plots
 		Rscript scripts/apaCtcfLossPlots.R
+
+#########################################
+## Example of a gained loop after CTCF
+## degradation. Preferentially looking to
+## show an example of a TAD breaking apart
+## and forming a new loop.
+#########################################
+
+## Merge loops of NHA9 containing
+## CTCF degron cells (+/- auxin)
+data/mergedLoops/mergedLoopsNha9Ctcf.rds:\
+	data/raw/sip_loops/MOPS_HCT_CTCFNHA9_Control_0h_inter_30/5kbLoops.txt\
+	data/raw/sip_loops/MOPS_HCT_CTCFNHA9_5PhIAA_3h_inter_30/5kbLoops.txt\
+	scripts/mergeLoopsNha9CTCF.R
+		mkdir -p data
+		Rscript scripts/mergeLoopsNha9CTCF.R
+
+## Extract counts before calling
+## differential loops
+data/Nha9CtcfMergedLoopCounts.h5\
+data/Nha9CtcfMergedLoopCounts.rds:\
+	data/mergedLoops/mergedLoopsNha9Ctcf.rds\
+	data/raw/hic/bioreps/MOPS_HCT_CTCFNHA9_5PhIAA_3h_1_1_inter_30.hic\
+	data/raw/hic/bioreps/MOPS_HCT_CTCFNHA9_5PhIAA_3h_2_1_inter_30.hic\
+	data/raw/hic/bioreps/MOPS_HCT_CTCFNHA9_Control_0h_1_1_inter_30.hic\
+	data/raw/hic/bioreps/MOPS_HCT_CTCFNHA9_Control_0h_2_1_inter_30.hic\
+	scripts/extractCountsNha9CTCF.R
+		mkdir -p data
+		if test -f data/Nha9CtcfMergedLoopCounts.h5; then rm data/Nha9CtcfMergedLoopCounts.h5; fi
+		Rscript scripts/extractCountsNha9CTCF.R
+
+## Differential loops after
+## degredation of CTCF
+## Testing how loops change
+## after loss of insulation.
+data/Nha9CtcfDiffLoopCounts.rds\
+plots/Nha9Ctcf_MAplot.pdf:\
+	data/Nha9CtcfMergedLoopCounts.h5\
+	data/Nha9CtcfMergedLoopCounts.rds\
+	scripts/diffLoopsNha9CTCF.R
+		mkdir -p data plots
+		Rscript scripts/diffLoopsNha9CTCF.R
+
+## Example plot showing that after
+## loss of CTCF a new loop forms
+## where there used to be a TAD
+## boundary.
+plots/exampleNha9CtcfGainedLoop.png\
+plots/exampleNha9CtcfLostBoundary.png:\
+	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_CTCFNHA9_5PhIAA_3h_inter_30.hic\
+	scripts/exampleNha9CTCF.R
+		mkdir -p plots
+		Rscript scripts/exampleNha9CTCF.R
