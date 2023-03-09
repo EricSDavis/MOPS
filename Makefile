@@ -36,7 +36,14 @@ objects :=\
 	data/Nha9CtcfDiffLoopCounts.rds\
 	plots/Nha9Ctcf_MAplot.pdf\
 	plots/exampleNha9CtcfGainedLoop.png\
-	plots/exampleNha9CtcfLostBoundary.png
+	plots/exampleNha9CtcfLostBoundary.png\
+	plots/exampleParentalVsNha9_RAD21_-NHA9.png\
+	plots/exampleParentalVsNha9_RAD21_+NHA9.png\
+	plots/exampleParentalVsNha9_RAD21_+NHA9-RAD21.png\
+	data/apaParentalVsNha9_RAD21.h5\
+	data/apaParentalVsNha9_RAD21.rds\
+	plots/apaNha9Rad21Ctl.png\
+	plots/apaNha9Rad21Aux.png
 
 all: $(objects)
 
@@ -188,6 +195,44 @@ plots/apaNha9CtcfAux.png:\
 	scripts/apaParentalVsNha9_CTCF_Plots.R
 		mkdir -p plots
 		Rscript scripts/apaParentalVsNha9_CTCF_Plots.R
+		
+
+#########################################
+## Example figure/plots showing gained/
+## retained NHA9 loop after degradation
+## of RAD21.
+#########################################
+
+## Example region (PBX3 region) of NHA9 loop 
+## that is retained after RAD21 loss.
+plots/exampleParentalVsNha9_RAD21_-NHA9.png\
+plots/exampleParentalVsNha9_RAD21_+NHA9.png\
+plots/exampleParentalVsNha9_RAD21_+NHA9-RAD21.png:\
+	data/raw/hic/condition/MOPS_HCT_RAD21parental_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_RAD21NHA9_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_RAD21NHA9_5PhIAA_3h_inter_30.hic\
+	scripts/exampleParentalVsNha9_RAD21.R
+		mkdir -p plots
+		Rscript scripts/exampleParentalVsNha9_RAD21.R
+
+## APA data
+data/apaParentalVsNha9_RAD21.h5\
+data/apaParentalVsNha9_RAD21.rds:\
+	data/ControlDiffLoopCounts.rds\
+	data/raw/hic/condition/MOPS_HCT_RAD21NHA9_Control_0h_inter_30.hic\
+	data/raw/hic/condition/MOPS_HCT_RAD21NHA9_5PhIAA_3h_inter_30.hic\
+	scripts/apaParentalVsNha9_RAD21.R
+		mkdir -p data
+		if test -f data/apaParentalVsNha9_RAD21.h5; then rm data/apaParentalVsNha9_RAD21.h5; fi
+		Rscript scripts/apaParentalVsNha9_RAD21.R
+
+## APA plots
+plots/apaNha9Rad21Ctl.png\
+plots/apaNha9Rad21Aux.png:\
+	data/apaParentalVsNha9_RAD21.rds\
+	scripts/apaParentalVsNha9_RAD21_Plots.R
+		mkdir -p plots
+		Rscript scripts/apaParentalVsNha9_RAD21_Plots.R
 
 
 ########################################
