@@ -9,6 +9,8 @@
 ## changes in code affecting the
 ## example. But uncomment to see
 ## other potential candidates.
+## Here we are combining both plots
+## and adding CNR data for NHA9 binding
 
 ## Load required packages
 library(InteractionSet)
@@ -31,6 +33,10 @@ library(grid)
 ## Define paths to .hic files
 nha9File <- "data/raw/hic/condition/MOPS_HCT_CTCFNHA9_Control_0h_inter_30.hic"
 degrFile <- "data/raw/hic/condition/MOPS_HCT_CTCFNHA9_5PhIAA_3h_inter_30.hic"
+
+## Define signal track file path for NHA9
+cnrNHA9 <- "data/raw/cnr/signal/MOPS_HCT_HA_0hr_1.bw"
+# cnrK27
 
 ## Identify putative TAD boundaries
 ## by looking around lost loop ends
@@ -83,7 +89,7 @@ p <- pgParams(
 )
 
 png(
-    "plots/exampleNha9CtcfLostBoundary.png",
+    "plots/exampleNha9CtcfRegion.png",
     width = 14, height = 14.65, unit = "in", res = 300
 )
 pageCreate(12.5, 12, showGuides = TRUE)
@@ -96,59 +102,10 @@ plotHicRectangle(
     data = degrFile,
     y = '0.1b'
 )
-dev.off()
-
-## Lost boundary (+CTCF)
-png(
-    "plots/exampleNha9CtcfLostBoundary.png",
-    width = 12, height = 5.65, unit = "in", res = 300
-)
-pageCreate(12.5, 6, showGuides = FALSE)
-nha9HicPlot <- plotHicRectangle(
+plotSignal(
+    data = cnrNHA9,
     params = p,
-    data = nha9File
-)
-plotGenomeLabel(
-    params = p,
-    length = p$width,
-    y = "0b",
-    fontsize = 20
-)
-annoHeatmapLegend(
-    plot = nha9HicPlot,
-    x = p$x + p$width + p$space * 2,
-    y = p$y,
-    width = p$space * 2,
-    height = p$height * 0.75,
-    fontcolor = "black",
-    fontsize = 18
-)
-dev.off()
-
-
-## Gained (NHA9) loop (-CTCF)
-png(
-    "plots/exampleNha9CtcfGainedLoop.png",
-    width = 12, height = 5.65, unit = "in", res = 300
-)
-pageCreate(12.5, 6, showGuides = FALSE)
-degrHicPlot <- plotHicRectangle(
-    params = p,
-    data = degrFile
-)
-plotGenomeLabel(
-    params = p,
-    length = p$width,
-    y = "0b",
-    fontsize = 20
-)
-annoHeatmapLegend(
-    plot = degrHicPlot,
-    x = p$x + p$width + p$space * 2,
-    y = p$y,
-    width = p$space * 2,
-    height = p$height * 0.75,
-    fontcolor = "black",
-    fontsize = 18
+    height = 0.75,
+    y = '0.1b'
 )
 dev.off()

@@ -342,3 +342,8 @@ plots/exampleNha9CtcfLostBoundary.png:\
 	scripts/exampleNha9CTCF.R
 		mkdir -p plots
 		Rscript scripts/exampleNha9CTCF.R
+
+## Combine these and add ChIP data
+## showing where NHA9 is bound
+## (check to see if the new loop is
+## bound by NHA9)

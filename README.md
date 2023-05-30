@@ -3,7 +3,9 @@
 ## Calling loops with SIP
 
 A second round of sequencing was conducted to improve power to detect
-differenetial loops. The following commands were run on UNC longleaf to
+differenetial loops. Additionally, 3 additional bioreps were conducted
+in the RAD21 cell lines (reps 3, 4, and 5 for control and degron).
+The following commands were run on UNC longleaf to
 call loop from biorep-combined Hi-C files with SIP:
 
 ```{bash}
@@ -44,3 +46,8 @@ on the UNC longleaf cluster.
 
 These loop calls were downloaded locally to `data/raw/loops/MOPS_loops`.
 
+
+
+TODO: 
+- Launch loop caller with updated bioreps (and update paths in `data/raw`)
+- Update `Makefile` paths with additional bioreps for differential loop calling
